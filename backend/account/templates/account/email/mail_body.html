@@ -1,0 +1,11 @@
+@'
+<h2>Здравствуйте, {{ user.username }}!</h2>
+<p>Для подтверждения вашего email адреса, пожалуйста, перейдите по ссылке:</p>
+<p><a href="{{ link }}" style="display:inline-block;padding:10px 20px;background:#28a745;color:#fff;text-decoration:none;border-radius:5px;">Подтвердить email</a></p>
+<p>Или скопируйте ссылку в браузер:</p>
+<p>{{ link }}</p>
+<br>
+<p>Если вы не регистрировались на нашем сайте, просто проигнорируйте это письмо.</p>
+<br>
+<p>С уважением,<br>Команда магазина</p>
+'@ | Out-File -FilePath C:\BIGCORP\backend\account\templates\account\email\mail_body.html -Encoding UTF8

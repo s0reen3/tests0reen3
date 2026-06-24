@@ -1,0 +1,34 @@
+@'
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card shadow">
+                <div class="card-body py-5">
+                    <i class="fa-solid fa-envelope fa-5x text-success mb-4"></i>
+                    <h3>Проверьте свою почту</h3>
+                    <p class="text-muted mt-3">
+                        Мы отправили письмо для подтверждения вашего email адреса.
+                    </p>
+                    <p class="text-muted">
+                        Пожалуйста, перейдите по ссылке в письме, чтобы активировать аккаунт.
+                    </p>
+                    <div class="alert alert-info mt-3">
+                        <small>
+                            <i class="fa-solid fa-circle-info"></i>
+                            Если вы не получили письмо, проверьте папку "Спам".
+                        </small>
+                    </div>
+                    <a href="{% url 'shop:products' %}" class="btn btn-primary mt-3">
+                        <i class="fa-solid fa-house me-2"></i>На главную
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+'@ | Out-File -FilePath C:\BIGCORP\backend\account\templates\account\email\email-verification-sent.html -Encoding UTF8

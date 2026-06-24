@@ -1,0 +1,12 @@
+@'
+Здравствуйте, {{ user.username }}!
+
+Для подтверждения вашего email адреса перейдите по ссылке ниже:
+
+{{ link }}
+
+Если вы не регистрировались на нашем сайте, просто проигнорируйте это письмо.
+
+С уважением,
+Команда магазина
+'@ | Out-File -FilePath C:\BIGCORP\backend\account\templates\account\email\mail_body.txt -Encoding UTF8

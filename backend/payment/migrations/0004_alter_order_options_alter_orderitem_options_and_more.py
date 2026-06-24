@@ -34,10 +34,10 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='order',
-            constraint=models.CheckConstraint(condition=models.Q(('amount__gte', 0)), name='amount_gte_0'),  # ✅ check -> condition
+            constraint=models.CheckConstraint(check=models.Q(('amount__gte', 0)), name='amount_gte_0'),  # ✅ ИСПРАВЛЕНО: condition -> check
         ),
         migrations.AddConstraint(
             model_name='orderitem',
-            constraint=models.CheckConstraint(condition=models.Q(('quantity__gt', 0)), name='quantity_gte_0'),  # ✅ check -> condition
+            constraint=models.CheckConstraint(check=models.Q(('quantity__gt', 0)), name='quantity_gte_0'),  # ✅ ИСПРАВЛЕНО: condition -> check
         ),
     ]

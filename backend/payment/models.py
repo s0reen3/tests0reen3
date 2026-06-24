@@ -62,7 +62,7 @@ class Order(models.Model):
         ]
         constraints = [
             models.CheckConstraint(
-                condition=models.Q(amount__gte=0),  # ✅ check -> condition
+                check=models.Q(amount__gte=0),  # ✅ ИСПРАВЛЕНО
                 name='amount_gte_0'
             ),
         ]
@@ -103,7 +103,7 @@ class OrderItem(models.Model):
         ordering = ['-id']
         constraints = [
             models.CheckConstraint(
-                condition=models.Q(quantity__gt=0),  # ✅ check -> condition
+                check=models.Q(quantity__gt=0),  # ✅ ИСПРАВЛЕНО
                 name='quantity_gte_0'
             ),
         ]

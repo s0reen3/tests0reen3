@@ -1,0 +1,215 @@
+Языки программирования
+1. Python — язык программирования для бэкенда
+
+python
+def get_products(request):
+    return Product.objects.filter(active=True)
+Применяется: весь бэкенд, логика приложения, API, обработка данных.
+
+2. JavaScript — язык для фронтенда
+
+javascript
+document.querySelector('.add-to-cart').addEventListener('click', addToCart);
+Применяется: интерактивные элементы на странице, отправка Ajax запросов.
+
+3. CSS — стилизация веб-страниц
+
+css
+.product-card { border: 1px solid #ddd; padding: 15px; }
+Применяется: внешний вид сайта, адаптивный дизайн.
+
+4. HTML — разметка веб-страниц
+
+html
+<div class="product-card"><h2>{{ product.name }}</h2></div>
+Применяется: структура страниц, шаблоны Django.
+
+Backend
+5. Django Rest Framework — создание REST API
+
+python
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'name', 'price']
+Применяется: API эндпоинты для фронтенда и мобильных приложений.
+
+6. API — интерфейс для обмена данными
+
+http
+GET /api/v1/products/ → возвращает список товаров в JSON
+Применяется: связь между фронтендом и бэкендом.
+
+7. Postgres — реляционная база данных
+
+sql
+SELECT * FROM products WHERE price > 100;
+Применяется: хранение всех данных (товары, заказы, пользователи).
+
+8. Redis Broker — брокер сообщений для Celery
+
+python
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+Применяется: передача задач между Django и Celery.
+
+9. Celery — выполнение фоновых задач
+
+python
+@celery.task
+def send_order_email(order_id):
+    order = Order.objects.get(id=order_id)
+    send_email(order.user.email, order)
+Применяется: отправка писем, обработка платежей, генерация отчетов.
+
+10. Celery Beat — планировщик периодических задач
+
+python
+CELERY_BEAT_SCHEDULE = {
+    'clear-cart': {
+        'task': 'clear_expired_carts',
+        'schedule': crontab(hour=3, minute=0),
+    }
+}
+Применяется: автоматические задачи по расписанию (очистка корзин, рассылки).
+
+11. Celery Result — хранение результатов задач
+
+python
+result = send_order_email.delay(order_id)
+status = result.status  # 'PENDING', 'SUCCESS', 'FAILURE'
+Применяется: отслеживание статуса выполнения задач.
+
+12. Celery Flower — мониторинг Celery задач
+
+bash
+celery -A project flower --port=5555
+# Открыть http://localhost:5555
+Применяется: просмотр очередей, задач, ошибок в реальном времени.
+
+Frontend
+13. Django Htmx — динамические обновления без перезагрузки
+
+html
+<button hx-post="/api/v1/add-to-cart/"
+        hx-target="#cart-count"
+        hx-swap="innerHTML">
+    Add to Cart
+</button>
+Применяется: корзина, избранное, бесконечная прокрутка, фильтры.
+
+14. Ajax — асинхронные запросы к серверу
+
+javascript
+$.ajax({
+    url: '/api/v1/add-to-cart/',
+    method: 'POST',
+    data: { product_id: 5 },
+    success: function(response) {
+        $('#cart-count').text(response.count);
+    }
+});
+Применяется: отправка данных без перезагрузки страницы.
+
+Платежи
+15. Stripe — платежная система
+
+python
+import stripe
+stripe.PaymentIntent.create(
+    amount=1000,
+    currency='usd',
+    payment_method='pm_card_visa',
+)
+Применяется: оплата картами, подписки в США/Европе.
+
+16. Yookassa — российская платежная система
+
+python
+from yookassa import Payment
+Payment.create({
+    'amount': {'value': 1000, 'currency': 'RUB'},
+    'payment_method_data': {'type': 'bank_card'},
+    'confirmation': {'type': 'redirect', 'return_url': 'https://site.com'}
+})
+Применяется: оплата картами, СБП, для российских пользователей.
+
+Документация
+17. Swagger и Redoc Docs — документация API
+
+python
+from drf_yasg.views import get_schema_view
+schema_view = get_schema_view(
+    info=openapi.Info(title="Shop API", default_version='v1'),
+)
+Применяется: автоматическая документация для разработчиков.
+
+Сервер и развертывание
+18. Nginx — веб-сервер и прокси
+
+nginx
+server {
+    listen 80;
+    location / {
+        proxy_pass http://backend:8000;
+        proxy_set_header Host $host;
+    }
+    location /static/ {
+        alias /static/;
+    }
+}
+Применяется: раздача статики, балансировка, HTTPS, прокси для Gunicorn.
+
+19. Gunicorn — WSGI сервер для Django
+
+bash
+gunicorn --workers=3 project.wsgi:application --bind=0.0.0.0:8000
+Применяется: запуск Django приложения в продакшене.
+
+20. Docker — контейнеризация
+
+dockerfile
+FROM python:3.11
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+CMD ["gunicorn", "project.wsgi:application"]
+Применяется: изолированное окружение, одинаковое на всех серверах.
+
+21. Docker Compose — оркестрация контейнеров
+
+yaml
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    depends_on: [postgres, redis]
+  postgres:
+    image: postgres:15
+  redis:
+    image: redis:7
+  nginx:
+    image: nginx:alpine
+Применяется: одновременный запуск всех сервисов (Django, Postgres, Redis, Nginx).
+
+DevOps и контроль версий
+22. GitHub Actions — CI/CD автоматизация
+
+yaml
+name: Deploy
+on: push
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker-compose build
+      - run: docker-compose up -d
+Применяется: автоматические тесты, сборка Docker, деплой на сервер.
+
+23. Git — система контроля версий
+
+bash
+git add .
+git commit -m "Add new feature"
+git push origin main
+Применяется: отслеживание изменений, командная работа, история проекта.

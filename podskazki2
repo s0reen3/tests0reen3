@@ -1,0 +1,58 @@
+# Обновление пакетов
+sudo apt update
+sudo apt upgrade -y
+
+# Установка Python и pip
+sudo apt install python3 python3-pip python3-venv -y
+
+# Установка Redis (для Celery)
+sudo apt install redis-server -y
+
+# Установка Git
+sudo apt install git -y
+
+---------------------------------
+
+# Клонируем репозиторий
+git clone https://github.com/s0reen3/tests0reen3.git
+cd tests0reen3
+
+---------------------------------
+
+# Создаем виртуальное окружение
+python3 -m venv venv
+
+# Активируем его
+source venv/bin/activate
+
+# Обновляем pip
+pip install --upgrade pip
+
+---------------------------------
+
+# Установка всех пакетов
+pip install -r requirements.txt
+
+# Если ошибка с psycopg2, установите SQLite версию
+pip install django djangorestframework celery redis gunicorn
+
+---------------------------------
+
+# Применяем миграции (создаст db.sqlite3 автоматически)
+python manage.py migrate
+
+# Создаем суперпользователя
+python manage.py createsuperuser
+
+# Собираем статические файлы
+python manage.py collectstatic
+
+# Создаем категории и фейковые товары (если есть такие команды)
+python manage.py fakeproducts
+
+---------------------------------
+
+# Запускаем Django сервер
+python manage.py runserver 0.0.0.0:8000
+
+# Открыть в браузере: http://ваш_IP:8000
